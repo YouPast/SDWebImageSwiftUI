@@ -16,10 +16,10 @@ SDWebImageSwiftUI is a SwiftUI image loading framework, which based on SDWebImag
 It brings all your favorite features from SDWebImage, like async image loading, memory/disk caching, animated image playback and performances.
                        DESC
 
-  s.homepage         = 'https://github.com/SDWebImage/SDWebImageSwiftUI'
+  s.homepage         = 'https://github.com/WendellXY/SDWebImageSwiftUI'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'DreamPiggy' => 'lizhuoli1126@126.com' }
-  s.source           = { :git => 'https://github.com/SDWebImage/SDWebImageSwiftUI.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/WendellXY/SDWebImageSwiftUI.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '14.0'
   s.osx.deployment_target = '11.0'
