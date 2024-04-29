@@ -201,7 +201,9 @@ public struct LegacyWebImage: View {
     func setupPlayer() -> some View {
         let shouldResetPlayer: Bool
         // Image compare should use ===/!==, which is faster than isEqual:
-        if let animatedImage = imagePlayer.currentAnimatedImage, animatedImage !== imageManager.image! {
+        if let animatedImage = imagePlayer.currentAnimatedImage,
+            let managerImage = imageManager.image,
+            animatedImage !== managerImage {
             shouldResetPlayer = true
         } else {
             shouldResetPlayer = false
