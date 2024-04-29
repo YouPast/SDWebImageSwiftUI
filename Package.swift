@@ -25,7 +25,9 @@ let package = Package(
         .target(
             name: "SDWebImageSwiftUI",
             dependencies: ["SDWebImage"],
-            path: "SDWebImageSwiftUI/Classes"
+            path: "SDWebImageSwiftUI",
+            sources: ["Classes"],
+            resources: [.copy("Resources/PrivacyInfo.xcprivacy")]
         ),
     ]
 )

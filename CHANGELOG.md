@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.4] - 2024-04-30
+- Trying to move the initial state setup before onAppear to fix the watchOS switching url or any other state issue #316
+- This solve a issue in history when sometimes SwiftUI does not trigger the `onAppear` and cause state error, like #312 #314
+
+## [3.0.3] - 2024-04-29
+- Added totally empty privacy manifest #315
+- People who facing the issue because of Privacy Manifest declaration during ITC validation can try this version
+
 ## [3.0.2] - 2024-03-27
 - Fix the assert crash then when using Data/Name in AnimatedImage #309
 
