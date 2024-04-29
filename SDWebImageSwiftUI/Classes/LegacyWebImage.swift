@@ -80,26 +80,25 @@ public struct LegacyWebImage: View {
             } else {
                 // Load Logic
                 setupPlaceholder()
-                    .onPlatformAppear(
-                        appear: {
-                            self.setupManager()
-                            if self.imageManager.error == nil {
-                                // Load remote image when first appear
-                                self.imageManager.load(url: imageModel.url, options: imageModel.options, context: imageModel.context)
-                            }
-                            guard self.imageConfiguration.retryOnAppear else { return }
-                            // When using prorgessive loading, the new partial image will cause onAppear. Filter this case
-                            if self.imageManager.error != nil && !self.imageManager.isIncremental {
-                                self.imageManager.load(url: imageModel.url, options: imageModel.options, context: imageModel.context)
-                            }
-                        },
-                        disappear: {
-                            guard self.imageConfiguration.cancelOnDisappear else { return }
-                            // When using prorgessive loading, the previous partial image will cause onDisappear. Filter this case
-                            if self.imageManager.error != nil && !self.imageManager.isIncremental {
-                                self.imageManager.cancel()
-                            }
-                        })
+                    .onAppear {
+                        self.setupManager()
+                        if self.imageManager.error == nil {
+                            // Load remote image when first appear
+                            self.imageManager.load(url: imageModel.url, options: imageModel.options, context: imageModel.context)
+                        }
+                        guard self.imageConfiguration.retryOnAppear else { return }
+                        // When using prorgessive loading, the new partial image will cause onAppear. Filter this case
+                        if self.imageManager.error != nil && !self.imageManager.isIncremental {
+                            self.imageManager.load(url: imageModel.url, options: imageModel.options, context: imageModel.context)
+                        }
+                    }
+                    .onDisappear {
+                        guard self.imageConfiguration.cancelOnDisappear else { return }
+                        // When using prorgessive loading, the previous partial image will cause onDisappear. Filter this case
+                        if self.imageManager.error != nil && !self.imageManager.isIncremental {
+                            self.imageManager.cancel()
+                        }
+                    }
             }
         }
     }
