@@ -210,14 +210,21 @@ public struct LegacyWebImage: View {
         if !shouldResetPlayer {
             imagePlayer.startPlaying()
         }
-        if let currentFrame = imagePlayer.currentFrame, !shouldResetPlayer {
+
+        let imageModelURLString = if let url = imageModel.url {
+            "\(url)"
+        } else {
+            ""
+        }
+
+        return if let currentFrame = imagePlayer.currentFrame, !shouldResetPlayer {
             // Bind frame index to ID to ensure onDisappear called with sync
-            return configure(image: currentFrame)
-                .id("\(imageModel.url!):\(imagePlayer.currentFrameIndex)")
+            configure(image: currentFrame)
+                .id("\(imageModelURLString):\(imagePlayer.currentFrameIndex)")
                 .onAppear {}
         } else {
-            return configure(image: imageManager.image!)
-                .id("\(imageModel.url!):\(imagePlayer.currentFrameIndex)")
+            configure(image: imageManager.image!)
+                .id("\(imageModelURLString):\(imagePlayer.currentFrameIndex)")
                 .onAppear {
                     if shouldResetPlayer {
                         // Clear previous status
