@@ -295,34 +295,41 @@ public struct WebImage<Content> : View where Content: View {
         if !shouldResetPlayer {
             imagePlayer.startPlaying()
         }
-        if let currentFrame = imagePlayer.currentFrame, !shouldResetPlayer {
-            // Bind frame index to ID to ensure onDisappear called with sync
-            return configure(image: currentFrame)
-                .id("\(imageModel.url!):\(imagePlayer.currentFrameIndex)")
-            .onAppear {}
+
+        let imageModelURLString = if let url = imageModel.url {
+            "\(url)"
         } else {
-            return configure(image: imageManager.image!)
-                .id("\(imageModel.url!):\(imagePlayer.currentFrameIndex)")
-            .onAppear {
-                if shouldResetPlayer {
-                    // Clear previous status
-                    self.imagePlayer.stopPlaying()
-                    self.imagePlayer.player = nil
-                    self.imagePlayer.currentFrame = nil;
-                    self.imagePlayer.currentFrameIndex = 0;
-                    self.imagePlayer.currentLoopCount = 0;
+            ""
+        }
+
+        return if let currentFrame = imagePlayer.currentFrame, !shouldResetPlayer {
+            // Bind frame index to ID to ensure onDisappear called with sync
+            configure(image: currentFrame)
+                .id("\(imageModelURLString):\(imagePlayer.currentFrameIndex)")
+                .onAppear {}
+        } else {
+             configure(image: imageManager.image!)
+                .id("\(imageModelURLString):\(imagePlayer.currentFrameIndex)")
+                .onAppear {
+                    if shouldResetPlayer {
+                        // Clear previous status
+                        self.imagePlayer.stopPlaying()
+                        self.imagePlayer.player = nil
+                        self.imagePlayer.currentFrame = nil;
+                        self.imagePlayer.currentFrameIndex = 0;
+                        self.imagePlayer.currentLoopCount = 0;
+                    }
+                    if let animatedImage = imageManager.image as? PlatformImage & SDAnimatedImageProvider {
+                        self.imagePlayer.customLoopCount = self.imageConfiguration.customLoopCount
+                        self.imagePlayer.maxBufferSize = self.imageConfiguration.maxBufferSize
+                        self.imagePlayer.runLoopMode = self.imageConfiguration.runLoopMode
+                        self.imagePlayer.playbackMode = self.imageConfiguration.playbackMode
+                        self.imagePlayer.playbackRate = self.imageConfiguration.playbackRate
+                        // Setup new player
+                        self.imagePlayer.setupPlayer(animatedImage: animatedImage)
+                        self.imagePlayer.startPlaying()
+                    }
                 }
-                if let animatedImage = imageManager.image as? PlatformImage & SDAnimatedImageProvider {
-                    self.imagePlayer.customLoopCount = self.imageConfiguration.customLoopCount
-                    self.imagePlayer.maxBufferSize = self.imageConfiguration.maxBufferSize
-                    self.imagePlayer.runLoopMode = self.imageConfiguration.runLoopMode
-                    self.imagePlayer.playbackMode = self.imageConfiguration.playbackMode
-                    self.imagePlayer.playbackRate = self.imageConfiguration.playbackRate
-                    // Setup new player
-                    self.imagePlayer.setupPlayer(animatedImage: animatedImage)
-                    self.imagePlayer.startPlaying()
-                }
-            }
         }
     }
     
