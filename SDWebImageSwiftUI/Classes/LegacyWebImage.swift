@@ -79,7 +79,7 @@ public struct LegacyWebImage: View {
                 }
             } else {
                 // Load Logic
-                setupPlaceholder()
+                setupInitialState()
                     .onAppear {
                         self.setupManager()
                         if self.imageManager.error == nil {
@@ -246,6 +246,16 @@ public struct LegacyWebImage: View {
                     }
                 }
         }
+    }
+
+    /// Initial state management (update when imageModel.url changed)
+    func setupInitialState() -> some View {
+        self.setupManager()
+        if (self.imageManager.error == nil) {
+            // Load remote image when first appear
+            self.imageManager.load(url: imageModel.url, options: imageModel.options, context: imageModel.context)
+        }
+        return setupPlaceholder()
     }
 
     /// Placeholder View Support
