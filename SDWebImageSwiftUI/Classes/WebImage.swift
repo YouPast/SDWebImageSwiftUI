@@ -154,6 +154,14 @@ public struct WebImage<Content> : View where Content: View {
     }
     
     public var body: some View {
+        
+#if DEBUG
+        if self.enableDebug {
+            if #available(iOS 15.0, *) {
+                let _ = Self._printChanges()
+            }
+        }
+#endif
         // Container
         return ZStack {
             // Render Logic for actual animated image frame or static image
@@ -182,6 +190,12 @@ public struct WebImage<Content> : View where Content: View {
                     }
                 }
             }
+            
+#if DEBUG
+            if enableDebug {
+                MesureImageView(imageManager: imageManager)
+            }
+#endif
         }
     }
     
@@ -539,4 +553,12 @@ struct WebImage_Previews : PreviewProvider {
         }
     }
 }
+
+
+extension WebImage {
+    var enableDebug: Bool  {
+        WebImageDebugOption.enableDebug
+    }
+}
+
 #endif
