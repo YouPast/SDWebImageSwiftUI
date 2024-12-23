@@ -60,6 +60,15 @@ public struct LegacyWebImage: View {
     }
 
     public var body: some View {
+        
+#if DEBUG
+        if enableDebug {
+            if #available(iOS 15.0, *) {
+                let _ = Self._printChanges()
+            }
+        }
+#endif
+        
         // Container
         ZStack {
             // This empty Image is used to receive container's level appear/disappear to start/stop player, reduce CPU usage
@@ -100,7 +109,14 @@ public struct LegacyWebImage: View {
                         }
                     }
             }
+            
+#if DEBUG
+            if enableDebug {
+                MesureImageView(imageManager: imageManager)
+            }
+#endif
         }
+
     }
 
     /// Configure the platform image into the SwiftUI rendering image
@@ -484,4 +500,13 @@ struct LegacyWebImage_Previews: PreviewProvider {
         }
     }
 }
+
+extension LegacyWebImage {
+    var enableDebug: Bool  {
+        WebImageDebugOption.enableDebug
+    }
+}
 #endif
+
+
+
