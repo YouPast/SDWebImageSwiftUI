@@ -55,7 +55,7 @@ import SwiftUI
     public override var intrinsicContentSize: CGSize {
       /// Match the behavior of SwiftUI.Image, only when image is resizable, use the super implementation to calculate size
       let contentSize = wrapped.intrinsicContentSize
-      if let _ = resizingMode {
+      if resizingMode != nil {
         /// Keep aspect ratio
         if contentSize.width > 0 && contentSize.height > 0 {
           let ratio = contentSize.width / contentSize.height
@@ -74,7 +74,10 @@ import SwiftUI
       super.init(frame: frameRect)
       addSubview(wrapped)
       observation = observe(\.wrapped.image, options: [.new]) { [weak self] _, _ in
-        self?.invalidateIntrinsicContentSize()
+        guard let self = self else {
+          return
+        }
+        self.invalidateIntrinsicContentSize()
       }
     }
 
@@ -82,7 +85,10 @@ import SwiftUI
       super.init(coder: coder)
       addSubview(wrapped)
       observation = observe(\.wrapped.image, options: [.new]) { [weak self] _, _ in
-        self?.invalidateIntrinsicContentSize()
+        guard let self = self else {
+          return
+        }
+        self.invalidateIntrinsicContentSize()
       }
     }
   }
