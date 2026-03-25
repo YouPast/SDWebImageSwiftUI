@@ -65,18 +65,18 @@ struct MesureImageView: View {
     @ViewBuilder
     private func warningSize(count: Int) -> some View {
         if count >= WebImageDebugOption.maxFileSize {
-            return Capsule().fill(.red)
+            Capsule().fill(.red)
         } else {
-            return Capsule().fill(.black.opacity(0.8))
+            Capsule().fill(.black.opacity(0.8))
         }
     }
     
     @ViewBuilder
     private func warningCost(count: Int) -> some View {
         if count >= WebImageDebugOption.maxMemeoryCost { 
-            return Capsule().fill(.red)
+            Capsule().fill(.red)
         } else {
-            return Capsule().fill(.black.opacity(0.8))
+            Capsule().fill(.black.opacity(0.8))
         }
     }
         

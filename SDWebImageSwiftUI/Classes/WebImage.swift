@@ -157,7 +157,7 @@ public struct WebImage<Content> : View where Content: View {
         
 #if DEBUG
         if self.enableDebug {
-            if #available(iOS 15.0, *) {
+            if #available(iOS 15.0, macOS 12.0, *) {
                 let _ = Self._printChanges()
             }
         }

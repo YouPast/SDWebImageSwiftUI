@@ -63,7 +63,7 @@ public struct LegacyWebImage: View {
         
 #if DEBUG
         if enableDebug {
-            if #available(iOS 15.0, *) {
+            if #available(iOS 15.0, macOS 12.0, *) {
                 let _ = Self._printChanges()
             }
         }
